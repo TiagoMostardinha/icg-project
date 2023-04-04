@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import MODEL from './models/apartments.js'
-import ACTIONS from '../controllers/actions.js'
+import USER from './user/actions.js'
 import OBJECT from './models/objects.js'
 
 
@@ -84,7 +84,7 @@ const user = new THREE.Mesh(userGeometry,userMaterial);
 user.position.set(20,2,20);
 
 document.onkeydown = function(e){
-    ACTIONS.userActions(e,user);
+    USER.userActions(e,user);
 }
 
 scene.add(user);
