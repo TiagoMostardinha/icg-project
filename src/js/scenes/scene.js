@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import MODEL from '../models/models.js'
+import MODEL from '../models/apartments.js'
+import ACTIONS from '../controllers/actions.js'
+import OBJECT from '../models/objects.js'
+
 
 // ************************** //
 // Init the 3D renderer
@@ -27,7 +30,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 const orbit = new OrbitControls(camera, renderer.domElement);
-camera.position.set(0, 8, 8);
+camera.position.set(20, 70, 70);
 
 // ************************** //
 // Draw Objects
@@ -45,7 +48,7 @@ scene.add(plane);
 // BOX1
 const box1 = MODEL.buildSmallApartment();
 
-box1.position.set(30,10,20);
+box1.position.set(30,15,20);
 
 scene.add(box1);
 
@@ -61,12 +64,28 @@ box3.position.set(40,10,40)
 
 scene.add(box3);
 
+// OBJECT1
+const obj1 = OBJECT.object1();
+obj1.position.set(10,2,10);
+
+scene.add(obj1);
+
+// OBJECT2
+const obj2 = OBJECT.object2();
+obj2.position.set(40,2,10);
+
+scene.add(obj2);
+
 // USER
 const userGeometry = new THREE.SphereGeometry(2,10,10);
 const userMaterial = new THREE.MeshBasicMaterial({color: 0x0000ff});
 const user = new THREE.Mesh(userGeometry,userMaterial);
 
 user.position.set(20,2,20);
+
+document.onkeydown = function(e){
+    ACTIONS.userActions(e,user);
+}
 
 scene.add(user);
 
