@@ -7,5 +7,3 @@ import GROUND from './models/ground.js'
 
 const inventory = [];
 const grid = [];
-
-sadsa
