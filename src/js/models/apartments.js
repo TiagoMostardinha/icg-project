@@ -55,7 +55,6 @@ export default {
                     grid[z][x] = "a";
 
                     object.position.set(x * 5+2.5,15,z * 5+2.5);
-
                     break;
                 case 2:
                     do {
@@ -69,7 +68,6 @@ export default {
                     grid[z+2][x] = "a";
 
                     object.position.set(x * 5+2.5,10,z * 5+7.5);
-
                     break;
 
             }
