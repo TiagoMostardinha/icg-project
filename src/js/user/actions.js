@@ -64,19 +64,18 @@ export default {
 
     placeObject(user, scene) {
         // Check if there is an object in front of the user
-        let object = inventory.pop();
         if (this.userHasObjectInFront(user, scene) !== false) {
-            console.log("No object in front to place.");
+            console.log("Has an object in front.");
             return;
         }
-        // Perform placing logic here
-        console.log("Has an object in front to place.");
+        let object = inventory.pop();
         // Set the position of the object in front of the user
         const userDirection = new THREE.Vector3();
         user.getWorldDirection(userDirection);
-        const objectPosition = user.position.clone().addScaledVector(userDirection, 3); // Place the object 3 units in front of the user
+        const objectPosition = user.position.clone().addScaledVector(userDirection, -4); // Place the object 4 units in front of the user
         object.position.copy(objectPosition);
         scene.add(object);
+        console.log("Object grabbed.")
     }
 
 }

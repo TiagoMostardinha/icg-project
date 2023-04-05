@@ -3,6 +3,9 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import MODEL from './models/apartments.js'
 import USER from './user/actions.js'
 import OBJECT from './models/objects.js'
+import GROUND from './models/ground.js'
+
+const grid = buildGrid();
 
 
 // ************************** //
@@ -37,54 +40,57 @@ camera.position.set(20, 70, 70);
 // ************************** //
 
 // PLANE
-const planeGeometry = new THREE.PlaneGeometry(50, 50,10,10);
-const planeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff});
-const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-plane.position.set(25, 0, 25);
-plane.rotation.set(-0.5 * Math.PI, 0, 0);
+// const planeGeometry = new THREE.PlaneGeometry(50, 50,10,10);
+// const planeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff});
+// const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+// plane.position.set(25, 0, 25);
+// plane.rotation.set(-0.5 * Math.PI, 0, 0);
 
+// scene.add(plane);
+const plane = GROUND.buildGround(scene,grid);
 scene.add(plane);
+
 
 // BOX1
 const box1 = MODEL.buildSmallApartment();
 
-box1.position.set(30,15,20);
+box1.position.set(32.5, 15, 22.5);
 
 scene.add(box1);
 
 // BOX2
 const box2 = MODEL.buildLargeApartment();
-box2.position.set(10,10,40);
+box2.position.set(10, 10, 40);
 
 scene.add(box2);
 
 // BOX3
 const box3 = MODEL.buildLongApartment();
-box3.position.set(40,10,40)
+box3.position.set(40, 10, 40)
 
 scene.add(box3);
 
 // OBJECT1
 const obj1 = OBJECT.object1();
-obj1.position.set(10,2,10);
+obj1.position.set(10, 2, 10);
 
 scene.add(obj1);
 
 // OBJECT2
 const obj2 = OBJECT.object2();
-obj2.position.set(40,2,10);
+obj2.position.set(40, 2, 10);
 
 scene.add(obj2);
 
 // USER
-const userGeometry = new THREE.SphereGeometry(2,10,10);
-const userMaterial = new THREE.MeshBasicMaterial({color: 0x0000ff});
-const user = new THREE.Mesh(userGeometry,userMaterial);
+const userGeometry = new THREE.SphereGeometry(2, 10, 10);
+const userMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+const user = new THREE.Mesh(userGeometry, userMaterial);
 
-user.position.set(20,2,20);
+user.position.set(20, 2, 20);
 
-document.onkeydown = function(e){
-    USER.userMoves(e,user,scene);
+document.onkeydown = function (e) {
+    USER.userMoves(e, user, scene);
 }
 
 
@@ -109,3 +115,12 @@ animate();
 
 // ************************** //
 renderer.render(scene, camera);
+
+
+function buildGrid() {
+    const matrix = [];
+    for (let i = 0; i < 10; i++) {
+        matrix.push(Array(10).fill("x"));
+    }
+    return matrix;
+}
