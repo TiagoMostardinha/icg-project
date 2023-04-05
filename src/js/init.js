@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import MODEL from './models/apartments.js'
-import USER from './user/actions.js'
+import USER from './user/user.js'
 import OBJECT from './models/objects.js'
 import GROUND from './models/ground.js'
 
@@ -30,17 +30,25 @@ function init() {
         1000
     );
 
+    const orbit = new OrbitControls(camera, renderer.domElement);
+    camera.position.set(20, 70, 70);
+
     // ************************** //
     // Draw Objects
     // ************************** //
+    // GROUND
     GROUND.buildGround(scene,grid);
+
+    // SCENARIO
     grid = MODEL.generateScenario(scene,grid);
 
-    console.log("INIT",grid);
+    // USER
+    let user  = USER.buildUser();
+    user.position.set(25, 2, 45);
+    scene.add(user);
 
 
-    const orbit = new OrbitControls(camera, renderer.domElement);
-    camera.position.set(20, 70, 70);
+
     // ************************** //
     // Helpers
     // ************************** //

@@ -52,8 +52,7 @@ export default {
         target.rotation.set(-0.5 * Math.PI, 0, 0);
         target.position.set(x * 5 + 2.5, 0.1, z * 5 + 2.5);
         scene.add(target);
-
-        console.log("TARGET",grid);
+        
         return grid
     },
 }

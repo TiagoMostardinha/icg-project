@@ -1,9 +1,12 @@
 import * as THREE from 'three';
 
-let inventory = [];
-
-
 export default {
+    buildUser() {
+        const userGeometry = new THREE.SphereGeometry(2, 20, 20);
+        const userMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+        return new THREE.Mesh(userGeometry, userMaterial);
+    },
+
     userMoves(e, user, scene) {
         switch (e.keyCode) {
             case 37: // Left arrow key
