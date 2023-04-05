@@ -17,6 +17,11 @@ export default {
         const boxGeometry = new THREE.BoxGeometry(5,20,10)
         const boxMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
         return new THREE.Mesh(boxGeometry,boxMaterial);
+    },
+
+    generateScenario(scene,grid){
+        let nApartments = Math.round(Math.random()*3+1);
+        console.log(nApartments);
     }
 };
 

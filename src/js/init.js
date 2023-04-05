@@ -30,6 +30,13 @@ function init() {
         1000
     );
 
+    // ************************** //
+    // Draw Objects
+    // ************************** //
+    MODEL.generateScenario(scene,grid);
+
+
+
     const orbit = new OrbitControls(camera, renderer.domElement);
     camera.position.set(20, 70, 70);
     // ************************** //
@@ -59,7 +66,6 @@ function buildGrid() {
     }
     return matrix;
 }
-
 
 // Responsible with the code to start the game
 const inventory = [];
