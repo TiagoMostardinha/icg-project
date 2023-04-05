@@ -14,16 +14,18 @@ export default {
     },
 
     buildLongApartment() {
-        const boxGeometry = new THREE.BoxGeometry(5, 20, 10)
+        const boxGeometry = new THREE.BoxGeometry(5, 20, 15)
         const boxMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
         return new THREE.Mesh(boxGeometry, boxMaterial);
     },
 
     generateScenario(scene, grid) {
         let nApartments = Math.round(Math.random() * 3 + 1);
-        const typeApartment = [this.buildLargeApartment(), this.buildSmallApartment, this.buildLongApartment()];
+        const typeApartment = [this.buildLargeApartment(), this.buildSmallApartment(), this.buildLongApartment()];
 
-        for (let i = 0; i < 1; i++) {
+        let x, z;
+
+        for (let i = 0; i < nApartments; i++) {
             let indexTypeApartment = Math.round(Math.random() * 2);
             let object = typeApartment[indexTypeApartment];
 
@@ -32,52 +34,48 @@ export default {
                     do {
                         x = Math.round(Math.random() * 8);
                         z = Math.round(Math.random() * 8);
-                    } while (grid[x][z] != "x" && grid[x + 1][z] != "x" && grid[x][z + 1] != "x" && grid[x][z + 1] != "x");
+                    } while (grid[z][x] != "x" && grid[z + 1][x] != "x" && grid[z][x + 1] != "x" && grid[z+1][x + 1] != "x" && grid[z][x] != "u" && grid[z + 1][x] != "u" && grid[z+1][x + 1] != "u" && grid[z][x + 1] != "u" && grid[z][x] != "t" && grid[z + 1][x] != "t" && grid[z+1][x + 1] != "t" && grid[z][x + 1] != "t");
 
                     // update grid
-                    grid[x][z] = "a";
-                    grid[x + 1][z] = "a";
-                    grid[x][z + 1] = "a";
-                    grid[x+1][z + 1] = "a";
+                    grid[z][x] = "a";
+                    grid[z + 1][x] = "a";
+                    grid[z][x + 1] = "a";
+                    grid[z + 1][x + 1] = "a";
 
-                    // build in scenario
-                    object.position.set(x*5,z*5,);
+                    object.position.set(x * 5+5,10,z * 5+5);
 
                     break;
                 case 1:
                     do {
                         x = Math.round(Math.random() * 8);
                         z = Math.round(Math.random() * 8);
-                    } while (grid[x][z] != "x" && grid[x + 1][z]);
+                    } while (grid[z][x] != "x" && grid[z][x] != "u" && grid[z][x] != "t");
 
                     // update grid
-                    grid[x][z] = "a";
+                    grid[z][x] = "a";
 
-                    // build in scenario
+                    object.position.set(x * 5+2.5,15,z * 5+2.5);
 
                     break;
                 case 2:
                     do {
                         x = Math.round(Math.random() * 8);
-                        z = Math.round(Math.random() * 8);
-                    } while (grid[x][z] != "x" && grid[x][z + 1] != "x" && grid[x][z + 2] != "x");
+                        z = Math.round(Math.random() * 7);
+                    } while (grid[z][x] != "x" && grid[z][x + 1] != "x" && grid[z][x + 2] != "x" && grid[z][x] != "u" && grid[z][x + 1] != "u" && grid[z][x + 2] != "u" && grid[z][x] != "t" && grid[z][x + 1] != "t" && grid[z][x + 2] != "t");
 
                     // update grid
-                    grid[x][z] = "a";
-                    grid[x][z + 1] = "a";
-                    grid[x][z + 2] = "a";
+                    grid[z][x] = "a";
+                    grid[z+1][x] = "a";
+                    grid[z+2][x] = "a";
 
-                    //build in scenario
+                    object.position.set(x * 5+2.5,10,z * 5+7.5);
 
                     break;
-                    
-            }
-            console.log("x" + x + "y" + z);
-        }
-        console.log("index" + indexTypeApartment);
-        console.log(nApartments);
-        console.log(grid);
 
+            }
+            scene.add(object);
+        }
+        return grid;
     }
 };
 

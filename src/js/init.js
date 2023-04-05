@@ -33,8 +33,10 @@ function init() {
     // ************************** //
     // Draw Objects
     // ************************** //
-    MODEL.generateScenario(scene,grid);
+    GROUND.buildGround(scene,grid);
+    grid = MODEL.generateScenario(scene,grid);
 
+    console.log("INIT",grid);
 
 
     const orbit = new OrbitControls(camera, renderer.domElement);
@@ -60,14 +62,19 @@ function init() {
 }
 
 function buildGrid() {
-    const matrix = [];
+    const grid = [];
     for (let i = 0; i < 10; i++) {
-        matrix.push(Array(10).fill("x"));
+        grid.push(Array(10).fill("x"));
     }
-    return matrix;
+    grid[9][4] = "u";
+    grid[9][5] = "u";
+    grid[8][4] = "u";
+    grid[8][5] = "u";
+
+    return grid;
 }
 
 // Responsible with the code to start the game
-const inventory = [];
-const grid = buildGrid();
+let inventory = [];
+let grid = buildGrid();
 init();

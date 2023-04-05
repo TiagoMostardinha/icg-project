@@ -33,30 +33,27 @@ export default {
             }
         }
 
-        this.chooseTarget(scene);
+        return this.chooseTarget(scene,grid);
     },
 
-    chooseTarget(scene) {
-        // Define the boundaries of the inner 8x8 square
-        const minX = 1;
-        const maxX = 8;
-        const minZ = 1;
-        const maxZ = 8;
-
-        // Find a random position within the inner 8x8 square
+    chooseTarget(scene, grid) {
         let x, z;
-        x = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
-        z = Math.floor(Math.random() * (maxZ - minZ + 1)) + minZ;
+        do {
+            x = Math.floor(Math.random() * 9);
+            z = Math.floor(Math.random() * 9);
+        } while (grid[z][x] != "x");
+
+        grid[z][x] = "t";
 
         // Mark the selected plane segment as the target
-        const planeSegmentIndex = (z - 1) * 10 + (x - 1);
-        const planeSegment = this.planeSegments[planeSegmentIndex];
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        planeSegment.material = material;
-        scene.add(planeSegment);
+        const targetGeometry = new THREE.PlaneGeometry(5, 5, 1, 1);
+        const targetMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const target = new THREE.Mesh(targetGeometry, targetMaterial);
+        target.rotation.set(-0.5 * Math.PI, 0, 0);
+        target.position.set(x * 5 + 2.5, 0.1, z * 5 + 2.5);
+        scene.add(target);
 
-        // Keep track of the selected target
-        this.targetX = x;
-        this.targetZ = z;
+        console.log("TARGET",grid);
+        return grid
     },
 }
