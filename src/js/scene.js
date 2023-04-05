@@ -1,11 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import MODEL from './models/apartments.js'
-<<<<<<< HEAD
-import ACTIONS from './user/actions.js'
-=======
 import USER from './user/actions.js'
->>>>>>> user_actions
 import OBJECT from './models/objects.js'
 import GROUND from './models/ground.js'
 
@@ -87,15 +83,9 @@ obj2.position.set(40, 2, 10);
 scene.add(obj2);
 
 // USER
-<<<<<<< HEAD
-const userGeometry = new THREE.BoxGeometry(4,4,4);
-const userMaterial = new THREE.MeshBasicMaterial({color: 0x0000ff});
-const user = new THREE.Mesh(userGeometry,userMaterial);
-=======
 const userGeometry = new THREE.SphereGeometry(2, 10, 10);
 const userMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
 const user = new THREE.Mesh(userGeometry, userMaterial);
->>>>>>> user_actions
 
 user.position.set(20, 2, 20);
 
