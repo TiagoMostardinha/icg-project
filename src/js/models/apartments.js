@@ -21,36 +21,61 @@ export default {
 
     generateScenario(scene, grid) {
         let nApartments = Math.round(Math.random() * 3 + 1);
-        const typeApartment = [this.buildLargeApartment(), this.buildSmallApartment, this.buildLongApartment()]
+        const typeApartment = [this.buildLargeApartment(), this.buildSmallApartment, this.buildLongApartment()];
 
-        let x, z;
-        let indexTypeApartment = Math.round(Math.random() * 2);
-
-        for (let i = 0; i < nApartments; i++) {
+        for (let i = 0; i < 1; i++) {
+            let indexTypeApartment = Math.round(Math.random() * 2);
+            let object = typeApartment[indexTypeApartment];
+            
             switch (indexTypeApartment) {
                 case 0:
                     do {
                         x = Math.round(Math.random() * 8);
                         z = Math.round(Math.random() * 8);
-                    } while (grid[x][z] != "x" && grid[x + 1][z] != "x" && grid[x][z + 1] != "x" && grid[x][z + 1] != "x")
+                    } while (grid[x][z] != "x" && grid[x + 1][z] != "x" && grid[x][z + 1] != "x" && grid[x][z + 1] != "x");
+
+                    // update grid
+                    grid[x][z] = "a";
+                    grid[x + 1][z] = "a";
+                    grid[x][z + 1] = "a";
+                    grid[x+1][z + 1] = "a";
+
+                    // build in scenario
+
                     break;
                 case 1:
                     do {
                         x = Math.round(Math.random() * 8);
                         z = Math.round(Math.random() * 8);
-                    } while (grid[x][z] != "x" && grid[x + 1][z] != "x" && grid[x][z + 1] != "x" && grid[x][z + 1] != "x")
+                    } while (grid[x][z] != "x" && grid[x + 1][z]);
+
+                    // update grid
+                    grid[x][z] = "a";
+
+                    // build in scenario
+
                     break;
                 case 2:
                     do {
                         x = Math.round(Math.random() * 8);
                         z = Math.round(Math.random() * 8);
-                    } while (grid[x][z] != "x" && grid[x + 1][z] != "x" && grid[x][z + 1] != "x" && grid[x][z + 1] != "x")
+                    } while (grid[x][z] != "x" && grid[x][z + 1] != "x" && grid[x][z + 2] != "x");
+
+                    // update grid
+                    grid[x][z] = "a";
+                    grid[x][z + 1] = "a";
+                    grid[x][z + 2] = "a";
+
+                    //build in scenario
+
                     break;
+                    
             }
+            console.log("x" + x + "y" + z);
         }
-        console.log("index"+indexTypeApartment);
-        console.log("x" + x + "y" + z);
+        console.log("index" + indexTypeApartment);
         console.log(nApartments);
+        console.log(grid);
 
     }
 };
