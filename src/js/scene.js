@@ -84,8 +84,10 @@ const user = new THREE.Mesh(userGeometry,userMaterial);
 user.position.set(20,2,20);
 
 document.onkeydown = function(e){
-    USER.userActions(e,user);
+    USER.userMoves(e,user,scene);
 }
+
+
 
 scene.add(user);
 
