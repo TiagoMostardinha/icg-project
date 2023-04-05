@@ -47,7 +47,7 @@ camera.position.set(20, 70, 70);
 // plane.rotation.set(-0.5 * Math.PI, 0, 0);
 
 // scene.add(plane);
-const plane = GROUND.buildGround(scene,grid);
+const plane = GROUND.buildGround(scene, grid);
 scene.add(plane);
 
 
@@ -117,10 +117,3 @@ animate();
 renderer.render(scene, camera);
 
 
-function buildGrid() {
-    const matrix = [];
-    for (let i = 0; i < 10; i++) {
-        matrix.push(Array(10).fill("x"));
-    }
-    return matrix;
-}
