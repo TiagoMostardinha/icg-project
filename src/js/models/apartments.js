@@ -26,7 +26,7 @@ export default {
         for (let i = 0; i < 1; i++) {
             let indexTypeApartment = Math.round(Math.random() * 2);
             let object = typeApartment[indexTypeApartment];
-            
+
             switch (indexTypeApartment) {
                 case 0:
                     do {
@@ -41,6 +41,7 @@ export default {
                     grid[x+1][z + 1] = "a";
 
                     // build in scenario
+                    object.position.set(x*5,z*5,);
 
                     break;
                 case 1:
