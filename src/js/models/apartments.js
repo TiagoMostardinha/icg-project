@@ -60,23 +60,6 @@ export default {
                             // update grid
                             grid[z][x] = "a";
 
-<<<<<<< HEAD
-                    object.position.set(x * 5+2.5,15,z * 5+2.5);
-                    break;
-                case 2:
-                    do {
-                        x = Math.round(Math.random() * 8);
-                        z = Math.round(Math.random() * 7);
-                    } while (grid[z][x] != "x" && grid[z][x + 1] != "x" && grid[z][x + 2] != "x" && grid[z][x] != "u" && grid[z][x + 1] != "u" && grid[z][x + 2] != "u" && grid[z][x] != "t" && grid[z][x + 1] != "t" && grid[z][x + 2] != "t");
-
-                    // update grid
-                    grid[z][x] = "a";
-                    grid[z+1][x] = "a";
-                    grid[z+2][x] = "a";
-
-                    object.position.set(x * 5+2.5,10,z * 5+7.5);
-                    break;
-=======
                             object.position.set(x * 5 + 2.5, 15, z * 5 + 2.5);
                             isValidPosition = true;
                         }
@@ -94,7 +77,6 @@ export default {
                             grid[z][x] = "a";
                             grid[z + 1][x] = "a";
                             grid[z + 2][x] = "a";
->>>>>>> restructure_init
 
                             object.position.set(x * 5 + 2.5, 12.5, z * 5 + 7.5);
                             isValidPosition = true;
