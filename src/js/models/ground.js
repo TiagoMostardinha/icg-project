@@ -33,26 +33,30 @@ export default {
             }
         }
 
-        return this.chooseTarget(scene,grid);
+        return grid;
     },
 
     chooseTarget(scene, grid) {
         let x, z;
-        do {
-            x = Math.floor(Math.random() * 9);
-            z = Math.floor(Math.random() * 9);
-        } while (grid[z][x] != "x");
+        const nTargets = Math.round(Math.random() + 1);
 
-        grid[z][x] = "t";
-
-        // Mark the selected plane segment as the target
-        const targetGeometry = new THREE.PlaneGeometry(5, 5, 1, 1);
-        const targetMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        const target = new THREE.Mesh(targetGeometry, targetMaterial);
-        target.rotation.set(-0.5 * Math.PI, 0, 0);
-        target.position.set(x * 5 + 2.5, 0.1, z * 5 + 2.5);
-        scene.add(target);
-        
-        return grid
-    },
+        for (let i = 0; i < nTargets; i++) {
+            let targetFound = false;
+            while (!targetFound) {
+                x = Math.floor(Math.random() * 10);
+                z = Math.floor(Math.random() * 10);
+                if (grid[z][x] === "x") {
+                    targetFound = true;
+                    grid[z][x] = "t";
+                    const targetGeometry = new THREE.PlaneGeometry(5, 5, 1, 1);
+                    const targetMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+                    const target = new THREE.Mesh(targetGeometry, targetMaterial);
+                    target.rotation.set(-0.5 * Math.PI, 0, 0);
+                    target.position.set(x * 5 + 2.5, 0.1, z * 5 + 2.5);
+                    scene.add(target);
+                }
+            }
+        }
+        return grid;
+    }
 }
