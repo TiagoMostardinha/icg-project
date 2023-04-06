@@ -7,6 +7,9 @@ import GROUND from './models/ground.js'
 
 
 function init() {
+    let inventory = [];
+    let grid = buildGrid();
+
     // ************************** //
     // Init the 3D renderer
     // ************************** //
@@ -33,19 +36,30 @@ function init() {
     const orbit = new OrbitControls(camera, renderer.domElement);
     camera.position.set(20, 70, 70);
 
+
     // ************************** //
     // Draw Objects
     // ************************** //
     // GROUND
-    GROUND.buildGround(scene,grid);
+    grid = GROUND.buildGround(scene, grid);
+
+    // TARGET
+    grid = GROUND.chooseTarget(scene, grid);
 
     // SCENARIO
-    grid = MODEL.generateScenario(scene,grid);
+    grid = MODEL.generateScenario(scene, grid);
+
+    // OBJECTS
+    OBJECT.placeObjects(scene, grid);
 
     // USER
-    let user  = USER.buildUser();
-    user.position.set(25, 2, 45);
+    let user = USER.buildUser();
     scene.add(user);
+
+    document.onkeydown = function (e) {
+        USER.userMoves(e, user, scene, inventory);
+        inventory = USER.getInventory();
+    }
 
 
 
@@ -83,6 +97,4 @@ function buildGrid() {
 }
 
 // Responsible with the code to start the game
-let inventory = [];
-let grid = buildGrid();
 init();
