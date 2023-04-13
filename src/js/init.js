@@ -9,6 +9,7 @@ import GROUND from './models/ground.js'
 function init() {
     let inventory = [];
     let grid = buildGrid();
+    let listObjects = [];
 
     // ************************** //
     // Init the 3D renderer
@@ -50,7 +51,7 @@ function init() {
     grid = MODEL.generateScenario(scene, grid);
 
     // OBJECTS
-    OBJECT.placeObjects(scene, grid);
+    listObjects = OBJECT.placeObjects(scene, grid);
 
     // USER
     let user = USER.buildUser();
@@ -59,9 +60,12 @@ function init() {
     document.onkeydown = function (e) {
         USER.userMoves(e, user, scene, inventory);
         inventory = USER.getInventory();
-    }
 
-
+        if (OBJECT.checkLevelComplete(grid,listObjects)) {
+            alert("You won!");
+            window.location.reload();
+        }
+    };
 
     // ************************** //
     // Helpers

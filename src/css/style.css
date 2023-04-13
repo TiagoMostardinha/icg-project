@@ -1,3 +1,53 @@
 body {
-	margin: 0px;
+	background-color: #f2f2f2;
+	margin: 0;
+}
+
+/* Style the navigation bar */
+#container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #333;
+	color: #fff;
+	padding: 10px;
+}
+
+.left-item {
+	font-size: 1rem;
+}
+
+.center-item {
+	font-size: 1rem;
+}
+
+.right-item {
+	display: flex;
+}
+
+button {
+	margin-left: 0.5rem;
+	background-color: #fff;
+	color: #333;
+	border: none;
+	border-radius: 0.25rem;
+	padding: 0.5rem;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+/* Optional styles for the countdown timer */
+#countdown {
+	font-size: 20px;
+	animation: countdown 60s linear infinite;
+}
+
+@keyframes countdown {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
 }
