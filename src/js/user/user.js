@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+const inventory_container = document.getElementById('inventory-container');
+
 let inventory = [];
 
 export default {
@@ -14,13 +16,13 @@ export default {
     userMoves(e, user, scene) {
         switch (e.keyCode) {
             case 37: // Left arrow key
-                user.rotateY(0.1); // Rotate left by 0.1 radians
+                user.rotateY(0.2); // Rotate left by 0.1 radians
                 break;
             case 38: // Up arrow key
                 user.translateZ(-1); // Move forward by 1 unit
                 break;
             case 39: // Right arrow key
-                user.rotateY(-0.1); // Rotate right by 0.1 radians
+                user.rotateY(-0.2); // Rotate right by 0.1 radians
                 break;
             case 40: // Down arrow key
                 user.translateZ(1); // Move backward by 1 unit
@@ -67,6 +69,8 @@ export default {
         }
         inventory.push(object);
         scene.remove(object);
+
+        this.sendInventory();
     },
 
     placeObject(user, scene) {
@@ -87,13 +91,33 @@ export default {
             const objectPosition = user.position.clone().addScaledVector(userDirection, -4); // Place the object 4 units in front of the user
             object.position.copy(objectPosition);
             scene.add(object);
-            console.log("Object grabbed.")
+            console.log("Object Placed.")
+            try {
+                inventory_container.removeChild(inventory_container.childNodes[0]);
+            } catch (e) {
+                return;
+            }
+
         }
     },
 
     getInventory() {
         return inventory;
     }
+    ,
+    sendInventory() {
+        const coin = document.createElement('img');
+        coin.src = './img/coin.png';
+        try {
+            inventory_container.removeChild(inventory_container.childNodes[0]);
+        } catch (e) {
+            console.log(e);
+        }
 
+        for (let i = 0; i < inventory.length; i++) {
+            const coin = document.createElement('img');
+            coin.src = './img/coin.png';
+            inventory_container.appendChild(coin);
+        }
+    }
 }
-

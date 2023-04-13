@@ -4,6 +4,7 @@ import MODEL from './models/apartments.js'
 import USER from './user/user.js'
 import OBJECT from './models/objects.js'
 import GROUND from './models/ground.js'
+import * as ACTIONS from './actions/actions.js'
 
 
 function init() {
@@ -61,7 +62,7 @@ function init() {
         USER.userMoves(e, user, scene, inventory);
         inventory = USER.getInventory();
 
-        if (OBJECT.checkLevelComplete(grid,listObjects)) {
+        if (OBJECT.checkLevelComplete(grid, listObjects)) {
             alert("You won!");
             window.location.reload();
         }
@@ -83,6 +84,8 @@ function init() {
     }
     animate();
 
+    ACTIONS.centerCamera(camera);
+
     // ************************** //
     renderer.render(scene, camera);
 }
@@ -102,3 +105,6 @@ function buildGrid() {
 
 // Responsible with the code to start the game
 init();
+
+ACTIONS.newGame();
+ACTIONS.startTimer();   
