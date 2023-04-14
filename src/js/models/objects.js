@@ -37,6 +37,7 @@ export default {
                     listObjects.push(object);
                 }
             }
+            object.name = "target";
             scene.add(object);
         }
         return listObjects;

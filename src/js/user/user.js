@@ -53,7 +53,6 @@ export default {
             const distance = intersects[i].distance;
             if (distance < 3) {
                 // There is an object in front of the user within 5 units
-                // You can add your logic here for what to do in this case
                 return intersects[i].object;
             }
         }
@@ -65,6 +64,11 @@ export default {
         if (object == false) {
             // Perform grabbing logic here
             console.log("No object in front to grab.");
+            return;
+        }
+
+        if (object.name != "target") {
+            console.log("Can't grab this object.");
             return;
         }
         inventory.push(object);
@@ -109,7 +113,9 @@ export default {
         const coin = document.createElement('img');
         coin.src = './img/coin.png';
         try {
-            inventory_container.removeChild(inventory_container.childNodes[0]);
+            while (inventory_container.firstChild) {
+                inventory_container.removeChild(inventory_container.firstChild);
+            }
         } catch (e) {
             console.log(e);
         }
