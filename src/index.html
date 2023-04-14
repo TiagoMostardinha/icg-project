@@ -18,20 +18,40 @@
 <body>
     <nav id="container">
         <div class="left-item">
-            <div id="inventory-container">            </div>
+            <div id="inventory-container"> </div>
         </div>
         <div class="center-item">
             <span id="timer"></span>
         </div>
+        </div>
         <div class="right-item">
             <button id="center">center</button>
             <button id="newgame">new game</button>
-            <button id="help">help</button>
+            <button id="help" class="btn" onclick="openPopup()">help</button>
         </div>
     </nav>
+
+    <div class="popup" id="popup">
+        <img src="./img/arrows.png">
+        <p>Use the arrow keys to move</p>
+        <p>Press 'G' to grab the objects</p>
+        <p>Press 'P' to place the objects</p>
+        <button type="button" onclick="closePopup()">close</button>
+    </div>
+
     <div id="game">
         <script type="module" src="./js/init.js"></script>
     </div>
+
+    <script>
+        let popup = document.getElementById("popup");
+        function openPopup() {
+            popup.classList.add("open-popup");
+        }
+        function closePopup() {
+            popup.classList.remove("open-popup");
+        }
+    </script>
 </body>
 
 </html>

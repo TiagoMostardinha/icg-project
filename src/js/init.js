@@ -6,7 +6,6 @@ import OBJECT from './models/objects.js'
 import GROUND from './models/ground.js'
 import * as ACTIONS from './actions/actions.js'
 
-
 function init() {
     let inventory = [];
     let grid = buildGrid();
