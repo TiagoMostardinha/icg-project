@@ -1,3 +1,9 @@
+// ************************** //
+// Created in: 18/04/2023
+// Made By: Tiago Mostardinhaa
+// Project for Introduction of Computer Graphics
+// ************************** //
+
 // Constants
 const newGameButton = document.getElementById('newgame');
 const timer = document.getElementById('timer');
