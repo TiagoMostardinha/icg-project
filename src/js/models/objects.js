@@ -3,12 +3,15 @@ import * as THREE from 'three';
 export default {
     object1() {
         const obj1Geometry = new THREE.SphereGeometry(2, 30, 5)
-        const obj1Material = new THREE.MeshBasicMaterial({ color: 0xff00ff });
-        return new THREE.Mesh(obj1Geometry, obj1Material);
+        const obj1Material = new THREE.MeshStandardMaterial({ color: 0xff00ff });
+        let obj = new THREE.Mesh(obj1Geometry, obj1Material);
+        obj.castShadow = true;
+        obj.receiveShadow = true;
+        return obj;
     },
     // object2() {
     //     const obj2Geometry = new THREE.SphereGeometry(2, 30, 5)
-    //     const obj2Material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    //     const obj2Material = new THREE.MeshStandardMaterial({ color: 0xffff00 });
     //     return new THREE.Mesh(obj2Geometry, obj2Material);
     // },
 
@@ -39,6 +42,8 @@ export default {
             }
             object.name = "target";
             scene.add(object);
+
+            console.log(object);
         }
         return listObjects;
     },

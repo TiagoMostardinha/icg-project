@@ -5,6 +5,7 @@ import USER from './user/user.js'
 import OBJECT from './models/objects.js'
 import GROUND from './models/ground.js'
 import * as ACTIONS from './actions/actions.js'
+import LIGHTS from './lights/light.js'
 
 function init() {
     let inventory = [];
@@ -17,6 +18,9 @@ function init() {
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
 
 
     // ************************** //
@@ -36,6 +40,16 @@ function init() {
 
     const orbit = new OrbitControls(camera, renderer.domElement);
     camera.position.set(20, 70, 70);
+
+    // ************************** //
+    // Lights
+    // ************************** //
+    // AMBIENT LIGHT
+    LIGHTS.addAmbientLight(scene);
+
+    // DIRECTIONAL LIGHT
+    LIGHTS.addDirectionalLight(scene);
+
 
 
     // ************************** //
