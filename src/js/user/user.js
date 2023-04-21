@@ -13,11 +13,9 @@ let inventory = [];
 export default {
     buildUser() {
         const userGeometry = new THREE.SphereGeometry(2, 20, 20);
-        const userMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff });
+        const userMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff });
         const user = new THREE.Mesh(userGeometry, userMaterial);
         user.position.set(25, 2, 45);
-        user.castShadow = true;
-        user.receiveShadow = true;
         return user;
     },
 

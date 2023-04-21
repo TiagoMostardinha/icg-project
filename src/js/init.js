@@ -24,9 +24,6 @@ function init() {
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
 
 
     // ************************** //
@@ -46,16 +43,6 @@ function init() {
 
     const orbit = new OrbitControls(camera, renderer.domElement);
     camera.position.set(20, 70, 70);
-
-    // ************************** //
-    // Lights
-    // ************************** //
-    // AMBIENT LIGHT
-    LIGHTS.addAmbientLight(scene);
-
-    // DIRECTIONAL LIGHT
-    LIGHTS.addDirectionalLight(scene);
-
 
 
     // ************************** //
@@ -93,6 +80,26 @@ function init() {
     // AXES HELPER
     const axesHelper = new THREE.AxesHelper(30);
     scene.add(axesHelper);
+
+
+    // ************************** //
+    // Lights
+    // ************************** //
+    // AMBIENT LIGHT
+    LIGHTS.addAmbientLight(scene);
+
+    // DIRECTIONAL LIGHT
+    LIGHTS.addDirectionalLight(scene);
+
+
+    // ************************** //
+    // Shadows
+    // ************************** //
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    LIGHTS.addShadowsChildren(scene);
+
+
 
 
     // ************************** //

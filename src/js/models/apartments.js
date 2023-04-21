@@ -9,19 +9,19 @@ import * as THREE from 'three';
 export default {
     buildSmallApartment() {
         const boxGeometry = new THREE.BoxGeometry(5, 30, 5)
-        const boxMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+        const boxMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
         return new THREE.Mesh(boxGeometry, boxMaterial);
     },
 
     buildLargeApartment() {
         const boxGeometry = new THREE.BoxGeometry(10, 20, 10)
-        const boxMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+        const boxMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
         return new THREE.Mesh(boxGeometry, boxMaterial);
     },
 
     buildLongApartment() {
         const boxGeometry = new THREE.BoxGeometry(5, 25, 15)
-        const boxMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+        const boxMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
         return new THREE.Mesh(boxGeometry, boxMaterial);
     },
 
