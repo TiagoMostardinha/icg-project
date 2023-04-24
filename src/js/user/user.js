@@ -7,6 +7,7 @@
 import * as THREE from 'three';
 
 const inventory_container = document.getElementById('inventory-container');
+let angle = Math.PI;
 
 let inventory = [];
 
@@ -18,22 +19,53 @@ export default {
         user.position.set(25, 2, 45);
         return user;
     },
+
+    buildSpotlight() {
+        const spotlight = new THREE.SpotLight(0xff0000, 1);
+        spotlight.position.set(25, 6, 45);
+        spotlight.angle = Math.PI / 8;
+        spotlight.penumbra = 0.05;
+        spotlight.decay = 2;
+        spotlight.distance = 200;
+        spotlight.castShadow = true;
+        spotlight.shadow.mapSize.width = 512;
+        spotlight.shadow.mapSize.height = 512;
+        spotlight.shadow.camera.near = 1;
+        spotlight.shadow.camera.far = 20;
+        spotlight.target.position.y = 5;
+        spotlight.target.position.x = 25;
+        spotlight.name = 'spotlight';
+        spotlight.shadow.camera.left = -5;
+        spotlight.shadow.camera.right = 5;
+        spotlight.shadow.camera.top = 5;
+        spotlight.shadow.camera.bottom = -5;
+        return spotlight;
+    },
+
     userMoves(e, user, scene) {
+        let spotlight = scene.getObjectByName('spotlight');
+
         switch (e.keyCode) {
             case 37: // Left arrow key
                 user.rotateY(0.2); // Rotate left by 0.1 radians
+                angle += 0.2;
                 break;
             case 38: // Up arrow key
                 if (user.position.z > 0) { // Check if the user is already at the minimum z-coordinate
                     user.translateZ(-1); // Move forward by 1 unit
+
+                    spotlight.position.set(user.position.x, 6, user.position.z);
                 }
                 break;
             case 39: // Right arrow key
                 user.rotateY(-0.2); // Rotate right by 0.1 radians
+                angle += -0.2;
                 break;
             case 40: // Down arrow key
                 if (user.position.z < 50) { // Check if the user is already at the maximum z-coordinate
                     user.translateZ(1); // Move backward by 1 unit
+
+                    spotlight.position.set(user.position.x, 6, user.position.z);
                 }
                 break;
             case 71: // G key
@@ -56,8 +88,11 @@ export default {
         } else if (user.position.z > 50) {
             user.position.setZ(50);
         }
-    }
-    ,
+
+        spotlight.target.position.set(user.position.x + Math.sin(angle), 5, user.position.z + Math.cos(angle));
+        spotlight.target.updateMatrixWorld();
+        spotlight.updateMatrixWorld();
+    },
 
     userHasObjectInFront(user, scene) {
         // Create a raycaster from the user's position in the direction they are facing
@@ -81,7 +116,9 @@ export default {
         }
 
         return false;
-    }, grabObject(user, scene) {
+    },
+
+    grabObject(user, scene) {
         // Check if there is an object in front of the user
         let object = this.userHasObjectInFront(user, scene);
         if (object == false) {
@@ -130,8 +167,8 @@ export default {
 
     getInventory() {
         return inventory;
-    }
-    ,
+    },
+
     sendInventory() {
         const coin = document.createElement('img');
         coin.src = './img/coin.png';
