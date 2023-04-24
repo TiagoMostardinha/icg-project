@@ -43,5 +43,5 @@ export default {
             }
             console.log(children[i].type, children[i].castShadow, children[i].receiveShadow);
         }
-    }
+    },
 }
