@@ -6,14 +6,18 @@
 
 import * as THREE from 'three';
 
+let color;
+if (Math.random() > 0.1) color = 0xffffff;
+else color = 0x000000;
+
 export default {
     addAmbientLight(scene) {
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        const ambientLight = new THREE.AmbientLight(color, 0.5);
         scene.add(ambientLight);
     },
 
     addDirectionalLight(scene) {
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        const directionalLight = new THREE.DirectionalLight(color, 0.5);
         directionalLight.position.set(50, 80, 50);
         directionalLight.castShadow = true;
         directionalLight.shadow.mapSize.width = 1024;
