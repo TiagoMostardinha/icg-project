@@ -18,20 +18,23 @@ export default {
         user.position.set(25, 2, 45);
         return user;
     },
-
     userMoves(e, user, scene) {
         switch (e.keyCode) {
             case 37: // Left arrow key
                 user.rotateY(0.2); // Rotate left by 0.1 radians
                 break;
             case 38: // Up arrow key
-                user.translateZ(-1); // Move forward by 1 unit
+                if (user.position.z > 0) { // Check if the user is already at the minimum z-coordinate
+                    user.translateZ(-1); // Move forward by 1 unit
+                }
                 break;
             case 39: // Right arrow key
                 user.rotateY(-0.2); // Rotate right by 0.1 radians
                 break;
             case 40: // Down arrow key
-                user.translateZ(1); // Move backward by 1 unit
+                if (user.position.z < 50) { // Check if the user is already at the maximum z-coordinate
+                    user.translateZ(1); // Move backward by 1 unit
+                }
                 break;
             case 71: // G key
                 this.grabObject(user, scene);
@@ -40,7 +43,21 @@ export default {
                 this.placeObject(user, scene);
                 break;
         }
-    },
+
+        // Make sure the user stays within the x-coordinate bounds
+        if (user.position.x < 0) {
+            user.position.setX(0);
+        } else if (user.position.x > 50) {
+            user.position.setX(50);
+        }
+
+        if (user.position.z < 0) {
+            user.position.setZ(0);
+        } else if (user.position.z > 50) {
+            user.position.setZ(50);
+        }
+    }
+    ,
 
     userHasObjectInFront(user, scene) {
         // Create a raycaster from the user's position in the direction they are facing
