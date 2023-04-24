@@ -13,11 +13,12 @@ let inventory = [];
 
 export default {
     buildUser() {
-        const userGeometry = new THREE.SphereGeometry(2, 20, 20);
-        const userMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff });
-        const user = new THREE.Mesh(userGeometry, userMaterial);
-        user.position.set(25, 2, 45);
-        return user;
+        const loader = new THREE.GLTFLoader();
+        loader.load('./assets/M4.glb', function (gltf) {
+            // Add the loaded object to the scene
+            gltf.position.set(25, 2, 45);
+            return gltf;
+        });
     },
 
     buildSpotlight() {
