@@ -64,6 +64,13 @@ function init() {
     let user = USER.buildUser();
     scene.add(user);
 
+    let spotlight = USER.buildSpotlight();
+    scene.add(spotlight);
+    spotlight.target.updateMatrixWorld();
+
+
+
+
     document.onkeydown = function (e) {
         USER.userMoves(e, user, scene, inventory);
         inventory = USER.getInventory();
