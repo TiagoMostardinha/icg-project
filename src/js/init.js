@@ -1,3 +1,9 @@
+// ************************** //
+// Created in: 18/04/2023
+// Made By: Tiago Mostardinhaa
+// Project for Introduction of Computer Graphics
+// ************************** //
+
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import MODEL from './models/apartments.js'
@@ -5,6 +11,7 @@ import USER from './user/user.js'
 import OBJECT from './models/objects.js'
 import GROUND from './models/ground.js'
 import * as ACTIONS from './actions/actions.js'
+import LIGHTS from './lights/light.js'
 
 function init() {
     let inventory = [];
@@ -57,6 +64,13 @@ function init() {
     let user = USER.buildUser();
     scene.add(user);
 
+    let spotlight = USER.buildSpotlight();
+    scene.add(spotlight);
+    spotlight.target.updateMatrixWorld();
+
+
+
+
     document.onkeydown = function (e) {
         USER.userMoves(e, user, scene, inventory);
         inventory = USER.getInventory();
@@ -73,6 +87,26 @@ function init() {
     // AXES HELPER
     const axesHelper = new THREE.AxesHelper(30);
     scene.add(axesHelper);
+
+
+    // ************************** //
+    // Lights
+    // ************************** //
+    // AMBIENT LIGHT
+    LIGHTS.addAmbientLight(scene);
+
+    // DIRECTIONAL LIGHT
+    LIGHTS.addDirectionalLight(scene);
+
+
+    // ************************** //
+    // Shadows
+    // ************************** //
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    LIGHTS.addShadowsChildren(scene);
+
+
 
 
     // ************************** //

@@ -1,31 +1,72 @@
+// ************************** //
+// Created in: 18/04/2023
+// Made By: Tiago Mostardinhaa
+// Project for Introduction of Computer Graphics
+// ************************** //
+
 import * as THREE from 'three';
 
 const inventory_container = document.getElementById('inventory-container');
+let angle = Math.PI;
 
 let inventory = [];
 
 export default {
     buildUser() {
         const userGeometry = new THREE.SphereGeometry(2, 20, 20);
-        const userMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+        const userMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff });
         const user = new THREE.Mesh(userGeometry, userMaterial);
         user.position.set(25, 2, 45);
         return user;
     },
 
+    buildSpotlight() {
+        const spotlight = new THREE.SpotLight(0xff0000, 1);
+        spotlight.position.set(25, 6, 45);
+        spotlight.angle = Math.PI / 8;
+        spotlight.penumbra = 0.05;
+        spotlight.decay = 2;
+        spotlight.distance = 200;
+        spotlight.castShadow = true;
+        spotlight.shadow.mapSize.width = 512;
+        spotlight.shadow.mapSize.height = 512;
+        spotlight.shadow.camera.near = 1;
+        spotlight.shadow.camera.far = 20;
+        spotlight.target.position.y = 5;
+        spotlight.target.position.x = 25;
+        spotlight.name = 'spotlight';
+        spotlight.shadow.camera.left = -5;
+        spotlight.shadow.camera.right = 5;
+        spotlight.shadow.camera.top = 5;
+        spotlight.shadow.camera.bottom = -5;
+        return spotlight;
+    },
+
     userMoves(e, user, scene) {
+        let spotlight = scene.getObjectByName('spotlight');
+
         switch (e.keyCode) {
             case 37: // Left arrow key
                 user.rotateY(0.2); // Rotate left by 0.1 radians
+                angle += 0.2;
                 break;
             case 38: // Up arrow key
-                user.translateZ(-1); // Move forward by 1 unit
+                if (user.position.z > 0) { // Check if the user is already at the minimum z-coordinate
+                    user.translateZ(-1); // Move forward by 1 unit
+
+                    spotlight.position.set(user.position.x, 6, user.position.z);
+                }
                 break;
             case 39: // Right arrow key
                 user.rotateY(-0.2); // Rotate right by 0.1 radians
+                angle += -0.2;
                 break;
             case 40: // Down arrow key
-                user.translateZ(1); // Move backward by 1 unit
+                if (user.position.z < 50) { // Check if the user is already at the maximum z-coordinate
+                    user.translateZ(1); // Move backward by 1 unit
+
+                    spotlight.position.set(user.position.x, 6, user.position.z);
+                }
                 break;
             case 71: // G key
                 this.grabObject(user, scene);
@@ -34,6 +75,23 @@ export default {
                 this.placeObject(user, scene);
                 break;
         }
+
+        // Make sure the user stays within the x-coordinate bounds
+        if (user.position.x < 0) {
+            user.position.setX(0);
+        } else if (user.position.x > 50) {
+            user.position.setX(50);
+        }
+
+        if (user.position.z < 0) {
+            user.position.setZ(0);
+        } else if (user.position.z > 50) {
+            user.position.setZ(50);
+        }
+
+        spotlight.target.position.set(user.position.x + Math.sin(angle), 5, user.position.z + Math.cos(angle));
+        spotlight.target.updateMatrixWorld();
+        spotlight.updateMatrixWorld();
     },
 
     userHasObjectInFront(user, scene) {
@@ -58,7 +116,9 @@ export default {
         }
 
         return false;
-    }, grabObject(user, scene) {
+    },
+
+    grabObject(user, scene) {
         // Check if there is an object in front of the user
         let object = this.userHasObjectInFront(user, scene);
         if (object == false) {
@@ -107,8 +167,8 @@ export default {
 
     getInventory() {
         return inventory;
-    }
-    ,
+    },
+
     sendInventory() {
         const coin = document.createElement('img');
         coin.src = './img/coin.png';

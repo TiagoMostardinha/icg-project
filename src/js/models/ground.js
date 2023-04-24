@@ -1,9 +1,19 @@
+// ************************** //
+// Created in: 18/04/2023
+// Made By: Tiago Mostardinhaa
+// Project for Introduction of Computer Graphics
+// ************************** //
+
 import * as THREE from 'three';
 
 export default {
     buildGround(scene, grid) {
         const planeSegmentGeometry = new THREE.PlaneGeometry(50, 50, 1, 1);
+<<<<<<< HEAD
         let planeSegmentMaterial = new THREE.MeshBasicMaterial({ color: 0x74855c });
+=======
+        let planeSegmentMaterial = new THREE.MeshPhongMaterial({ color: 0x74855c });
+>>>>>>> main
         const planeSegment = new THREE.Mesh(planeSegmentGeometry, planeSegmentMaterial);
         planeSegment.position.set(25, 0, 25);
         planeSegment.rotation.set(-0.5 * Math.PI, 0, 0);
@@ -25,6 +35,7 @@ export default {
                 if (grid[z][x] === "x") {
                     targetFound = true;
                     grid[z][x] = "t";
+<<<<<<< HEAD
                     const texture = textureLoader.load('./img/target.jpg', () => {
                         // Once the texture is loaded, create the ground plane
                         const targetGeometry = new THREE.PlaneGeometry(5, 5,1,1);
@@ -34,6 +45,15 @@ export default {
                         target.position.set(x * 5 + 2.5, 0.1, z * 5 + 2.5);
                         scene.add(target);
                     });
+=======
+                    // Once the texture is loaded, create the ground plane
+                    const targetGeometry = new THREE.PlaneGeometry(5, 5, 1, 1);
+                    const targetMaterial = new THREE.MeshPhongMaterial({ color: 0xffff00 });
+                    const target = new THREE.Mesh(targetGeometry, targetMaterial);
+                    target.rotation.set(-0.5 * Math.PI, 0, 0);
+                    target.position.set(x * 5 + 2.5, 0.1, z * 5 + 2.5);
+                    scene.add(target);
+>>>>>>> main
                 }
             }
         }
