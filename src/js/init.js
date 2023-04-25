@@ -76,8 +76,10 @@ function init() {
         inventory = USER.getInventory();
 
         if (OBJECT.checkLevelComplete(grid, listObjects)) {
-            alert("You won!");
-            window.location.reload();
+            setTimeout(function () {
+                alert("You won!");
+                window.location.reload();
+            }, 2000);
         }
     };
 
