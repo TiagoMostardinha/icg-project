@@ -5,6 +5,7 @@
 // ************************** //
 
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const inventory_container = document.getElementById('inventory-container');
 let angle = Math.PI;
@@ -12,12 +13,27 @@ let angle = Math.PI;
 let inventory = [];
 
 export default {
-    buildUser() {
-        const userGeometry = new THREE.SphereGeometry(2, 20, 20);
-        const userMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff });
-        const user = new THREE.Mesh(userGeometry, userMaterial);
-        user.position.set(25, 2, 45);
-        return user;
+    buildUser(scene) {
+        const loader = new GLTFLoader();
+        loader.load(
+            './assets/M4.glb',
+            (gltf) => {
+                scene.add(gltf.scene);
+                gltf.scene.scale.set(0.05, 0.05, 0.05);
+                gltf.scene.position.set(25, 0, 45);
+                gltf.scene.name = 'user';
+                gltf.scene.castShadow = true;
+                gltf.scene.receiveShadow = true;
+                console.log("ola", gltf.scene);
+            },
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            },
+            function (error) {
+                console.log('An error happened', error);
+            }
+        );
+        return scene;
     },
 
     buildSpotlight() {

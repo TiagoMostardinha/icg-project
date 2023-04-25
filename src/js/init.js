@@ -18,22 +18,15 @@ function init() {
     let grid = buildGrid();
     let listObjects = [];
 
-    // ************************** //
     // Init the 3D renderer
-    // ************************** //
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-
-    // ************************** //
     // Create the 3D scene
-    // ************************** //
-    const scene = new THREE.Scene();
+    let scene = new THREE.Scene();
 
-    // ************************** //
     // Add camera
-    // ************************** //
     const camera = new THREE.PerspectiveCamera(
         75,
         window.innerWidth / window.innerHeight,
@@ -44,10 +37,8 @@ function init() {
     const orbit = new OrbitControls(camera, renderer.domElement);
     camera.position.set(20, 70, 70);
 
+    // Draw objects
 
-    // ************************** //
-    // Draw Objects
-    // ************************** //
     // GROUND
     grid = GROUND.buildGround(scene, grid);
 
@@ -61,67 +52,64 @@ function init() {
     listObjects = OBJECT.placeObjects(scene, grid);
 
     // USER
-    let user = USER.buildUser();
-    scene.add(user);
+    scene = USER.buildUser(scene);
+    let user = scene.getObjectByName('user');
+    console.log("USER", user); // Check if user object is being retrieved
 
     let spotlight = USER.buildSpotlight();
     scene.add(spotlight);
     spotlight.target.updateMatrixWorld();
 
+    // Add event listener to capture keydown events
+    document.addEventListener('keydown', function (event) {
 
+        // Pass the event, user object, scene, and inventory to userMoves function
+        USER.userMoves(event, user, scene, inventory);
 
-
-    document.onkeydown = function (e) {
-        USER.userMoves(e, user, scene, inventory);
+        // Get the updated inventory from the user object
         inventory = USER.getInventory();
 
+        // Check if level is complete
         if (OBJECT.checkLevelComplete(grid, listObjects)) {
             alert("You won!");
             window.location.reload();
         }
-    };
+    });
 
-    // ************************** //
     // Helpers
-    // ************************** //
+
     // AXES HELPER
     const axesHelper = new THREE.AxesHelper(30);
     scene.add(axesHelper);
 
-
-    // ************************** //
     // Lights
-    // ************************** //
+
     // AMBIENT LIGHT
     LIGHTS.addAmbientLight(scene);
 
     // DIRECTIONAL LIGHT
     LIGHTS.addDirectionalLight(scene);
 
-
-    // ************************** //
     // Shadows
-    // ************************** //
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     LIGHTS.addShadowsChildren(scene);
 
-
-
-
-    // ************************** //
+    // Animation loop
     function animate() {
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
-        orbit.update(); // update the state of OrbitControls
+        orbit.update();
     }
+
     animate();
 
     ACTIONS.centerCamera(camera);
 
-    // ************************** //
+    // Render the scene once to ensure that the user object is visible
     renderer.render(scene, camera);
 }
+
 
 function buildGrid() {
     const grid = [];
