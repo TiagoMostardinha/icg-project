@@ -21,7 +21,7 @@ export default {
         material.map = texture;
       
         let coin = new THREE.Mesh(geometry, material);
-        coin.rotation.y = Math.PI/2;
+
         coin.rotation.x = Math.PI / 2;
       
         return coin;

@@ -14,6 +14,7 @@ import * as ACTIONS from './actions/actions.js'
 import LIGHTS from './lights/light.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { UserControls } from './user/user.js';
+import ANIMATIONS from './actions/animations.js';
 
 function init() {
     let inventory = [];
@@ -133,12 +134,12 @@ function init() {
                 window.location.reload();
             }, 2000);
         }
-
+        ANIMATIONS.animateCoin(scene);
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
         orbit.update(); // update the state of OrbitControls
     }
-    
+
     animate();
 
     ACTIONS.centerCamera(camera);
