@@ -12,6 +12,8 @@ import OBJECT from './models/objects.js'
 import GROUND from './models/ground.js'
 import * as ACTIONS from './actions/actions.js'
 import LIGHTS from './lights/light.js'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { UserControls } from './user/user.js';
 
 function init() {
     let inventory = [];
@@ -29,7 +31,7 @@ function init() {
     // ************************** //
     // Create the 3D scene
     // ************************** //
-    const scene = new THREE.Scene();
+    let scene = new THREE.Scene();
 
     // ************************** //
     // Add camera
@@ -61,27 +63,36 @@ function init() {
     listObjects = OBJECT.placeObjects(scene, grid);
 
     // USER
-    let user = USER.buildUser();
-    scene.add(user);
+    var userControls;
+    new GLTFLoader().load('./assets/M4.glb', (gltf) => {
+        const model = gltf.scene;
+        model.scale.set(0.03, 0.03, 0.03);
+        model.traverse((o) => {
+            if (o.isMesh) {
+                o.castShadow = true;
+                o.receiveShadow = true;
+            }
+        });
+        model.position.set(25, 0, 45);
+        model.receiveShadow = true;
+        scene.add(model);
+
+        userControls = new UserControls(model,scene);
+    });
+
+    let keyPressed;
+    document.addEventListener('keydown', (event) => {
+        keyPressed = event.key;
+    }, false);
+
+    document.addEventListener('keyup', () => {
+        keyPressed = null;
+    }, false);
+
 
     let spotlight = USER.buildSpotlight();
     scene.add(spotlight);
     spotlight.target.updateMatrixWorld();
-
-
-
-
-    document.onkeydown = function (e) {
-        USER.userMoves(e, user, scene, inventory);
-        inventory = USER.getInventory();
-
-        if (OBJECT.checkLevelComplete(grid, listObjects)) {
-            setTimeout(function () {
-                alert("You won!");
-                window.location.reload();
-            }, 2000);
-        }
-    };
 
     // ************************** //
     // Helpers
@@ -113,6 +124,11 @@ function init() {
 
     // ************************** //
     function animate() {
+        if (userControls) {
+            userControls.update(keyPressed, spotlight,scene);
+            scene = userControls.getScene();
+        }
+        
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
         orbit.update(); // update the state of OrbitControls

@@ -91,6 +91,7 @@ export default {
                 }
             }
 
+            object.name = "apartment";
             scene.add(object);
         }
 

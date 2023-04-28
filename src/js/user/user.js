@@ -8,18 +8,58 @@ import * as THREE from 'three';
 
 const inventory_container = document.getElementById('inventory-container');
 let angle = Math.PI;
-
 let inventory = [];
 
-export default {
-    buildUser() {
-        const userGeometry = new THREE.SphereGeometry(2, 20, 20);
-        const userMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff });
-        const user = new THREE.Mesh(userGeometry, userMaterial);
-        user.position.set(25, 2, 45);
-        return user;
-    },
+export class UserControls {
+    static model = new THREE.Group();
+    static scene = new THREE.Scene();
 
+    constructor(model,scene) {
+        this.model = model;
+        this.scene = scene;
+    }
+
+
+    update(keysPressed, spotlight,scene) {
+        switch (keysPressed) {
+            case "ArrowLeft":
+                this.model.rotateY(0.05); // Rotate left by 0.1 radians
+                angle += 0.05;
+                break;
+            case "ArrowUp":
+                if (this.model.position.z > 0) { // Check if the this.model is already at the minimum z-coordinate
+                    this.model.translateZ(-0.25); // Move forward by 1 unit
+
+                    spotlight.position.set(this.model.position.x, 6, this.model.position.z);
+                }
+                break;
+            case "ArrowRight":
+                this.model.rotateY(-0.05); // Rotate right by 0.1 radians
+                angle += -0.05;
+                break;
+            case "ArrowDown":
+                if (this.model.position.z < 50) { // Check if the this.model is already at the maximum z-coordinate
+                    this.model.translateZ(0.25); // Move backward by 1 unit
+
+                    spotlight.position.set(this.model.position.x, 6, this.model.position.z);
+                }
+                break;
+            case "g": // G key
+                this.grabObject(this.model, this.scene);
+                break;
+            case "p": // P key
+                this.placeObject(this.model, this.scene);
+                break;
+        }
+    }
+    
+    getScene() {
+        return this.scene;
+    }
+}
+
+
+export default {
     buildSpotlight() {
         const spotlight = new THREE.SpotLight(0xff0000, 1);
         spotlight.position.set(25, 6, 45);
@@ -42,66 +82,66 @@ export default {
         return spotlight;
     },
 
-    userMoves(e, user, scene) {
+    modelMoves(e, model, scene) {
         let spotlight = scene.getObjectByName('spotlight');
 
         switch (e.keyCode) {
             case 37: // Left arrow key
-                user.rotateY(0.2); // Rotate left by 0.1 radians
+                model.rotateY(0.2); // Rotate left by 0.1 radians
                 angle += 0.2;
                 break;
             case 38: // Up arrow key
-                if (user.position.z > 0) { // Check if the user is already at the minimum z-coordinate
-                    user.translateZ(-1); // Move forward by 1 unit
+                if (model.position.z > 0) { // Check if the model is already at the minimum z-coordinate
+                    model.translateZ(-1); // Move forward by 1 unit
 
-                    spotlight.position.set(user.position.x, 6, user.position.z);
+                    spotlight.position.set(model.position.x, 6, model.position.z);
                 }
                 break;
             case 39: // Right arrow key
-                user.rotateY(-0.2); // Rotate right by 0.1 radians
+                model.rotateY(-0.2); // Rotate right by 0.1 radians
                 angle += -0.2;
                 break;
             case 40: // Down arrow key
-                if (user.position.z < 50) { // Check if the user is already at the maximum z-coordinate
-                    user.translateZ(1); // Move backward by 1 unit
+                if (model.position.z < 50) { // Check if the model is already at the maximum z-coordinate
+                    model.translateZ(1); // Move backward by 1 unit
 
-                    spotlight.position.set(user.position.x, 6, user.position.z);
+                    spotlight.position.set(model.position.x, 6, model.position.z);
                 }
                 break;
             case 71: // G key
-                this.grabObject(user, scene);
+                this.grabObject(model, scene);
                 break;
             case 80: // P key
-                this.placeObject(user, scene);
+                this.placeObject(model, scene);
                 break;
         }
 
-        // Make sure the user stays within the x-coordinate bounds
-        if (user.position.x < 0) {
-            user.position.setX(0);
-        } else if (user.position.x > 50) {
-            user.position.setX(50);
+        // Make sure the model stays within the x-coordinate bounds
+        if (model.position.x < 0) {
+            model.position.setX(0);
+        } else if (model.position.x > 50) {
+            model.position.setX(50);
         }
 
-        if (user.position.z < 0) {
-            user.position.setZ(0);
-        } else if (user.position.z > 50) {
-            user.position.setZ(50);
+        if (model.position.z < 0) {
+            model.position.setZ(0);
+        } else if (model.position.z > 50) {
+            model.position.setZ(50);
         }
 
-        spotlight.target.position.set(user.position.x + Math.sin(angle), 5, user.position.z + Math.cos(angle));
+        spotlight.target.position.set(model.position.x + Math.sin(angle), 5, model.position.z + Math.cos(angle));
         spotlight.target.updateMatrixWorld();
         spotlight.updateMatrixWorld();
     },
 
-    userHasObjectInFront(user, scene) {
-        // Create a raycaster from the user's position in the direction they are facing
+    modelHasObjectInFront(model, scene) {
+        // Create a raycaster from the model's position in the direction they are facing
         const raycaster = new THREE.Raycaster();
         const direction = new THREE.Vector3();
-        const userPosition = user.position.clone();
-        direction.set(0, 0, -1); // Set the direction based on the user's rotation
-        direction.applyQuaternion(user.quaternion);
-        raycaster.set(userPosition, direction);
+        const modelPosition = model.position.clone();
+        direction.set(0, 0, -1); // Set the direction based on the model's rotation
+        direction.applyQuaternion(model.quaternion);
+        raycaster.set(modelPosition, direction);
 
         // Check for intersections with objects in the scene
         const intersects = raycaster.intersectObjects(scene.children, true);
@@ -110,7 +150,7 @@ export default {
         for (let i = 0; i < intersects.length; i++) {
             const distance = intersects[i].distance;
             if (distance < 3) {
-                // There is an object in front of the user within 5 units
+                // There is an object in front of the model within 5 units
                 return intersects[i].object;
             }
         }
@@ -118,9 +158,9 @@ export default {
         return false;
     },
 
-    grabObject(user, scene) {
-        // Check if there is an object in front of the user
-        let object = this.userHasObjectInFront(user, scene);
+    grabObject(model, scene) {
+        // Check if there is an object in front of the model
+        let object = this.modelHasObjectInFront(model, scene);
         if (object == false) {
             // Perform grabbing logic here
             console.log("No object in front to grab.");
@@ -137,22 +177,22 @@ export default {
         this.sendInventory();
     },
 
-    placeObject(user, scene) {
-        // Check if there is an object in front of the user
-        if (this.userHasObjectInFront(user, scene) !== false) {
+    placeObject(model, scene) {
+        // Check if there is an object in front of the model
+        if (this.modelHasObjectInFront(model, scene) !== false) {
             console.log("Has an object in front.");
             return;
         }
-        // Check if the user has an object in their inventory
+        // Check if the model has an object in their inventory
         if (inventory.length == 0) {
             console.log("No object in inventory to place.");
             return;
         } else {
             let object = inventory.pop();
-            // Set the position of the object in front of the user
-            const userDirection = new THREE.Vector3();
-            user.getWorldDirection(userDirection);
-            const objectPosition = user.position.clone().addScaledVector(userDirection, -4); // Place the object 4 units in front of the user
+            // Set the position of the object in front of the model
+            const modelDirection = new THREE.Vector3();
+            model.getWorldDirection(modelDirection);
+            const objectPosition = model.position.clone().addScaledVector(modelDirection, -4); // Place the object 4 units in front of the model
             object.position.copy(objectPosition);
             scene.add(object);
             console.log("Object Placed.")
