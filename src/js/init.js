@@ -77,7 +77,7 @@ function init() {
         model.receiveShadow = true;
         scene.add(model);
 
-        userControls = new UserControls(model,scene);
+        userControls = new UserControls(model, scene);
     });
 
     let keyPressed;
@@ -127,7 +127,13 @@ function init() {
         if (userControls) {
             userControls.update(keyPressed, spotlight);
         }
-        
+        if (OBJECT.checkLevelComplete(grid, listObjects)) {
+            setTimeout(function () {
+                alert("You won!");
+                window.location.reload();
+            }, 2000);
+        }
+
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
         orbit.update(); // update the state of OrbitControls
