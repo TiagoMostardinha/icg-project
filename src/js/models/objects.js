@@ -8,16 +8,24 @@ import * as THREE from 'three';
 
 export default {
     object1() {
-        const obj1Geometry = new THREE.SphereGeometry(2, 30, 5)
-        const obj1Material = new THREE.MeshPhongMaterial({ color: 0xff00ff });
-        return new THREE.Mesh(obj1Geometry, obj1Material);
-        
+        const radius = 1.5;
+        const height = 0.5;
+        const segments = 32;
+      
+        const geometry = new THREE.CylinderGeometry(radius, radius, height, segments);
+        const material = new THREE.MeshPhongMaterial({ color: 0xffff00 });
+      
+        // Load an image texture and apply it to the material's map property
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load('./img/coin.png');
+        material.map = texture;
+      
+        let coin = new THREE.Mesh(geometry, material);
+
+        coin.rotation.x = Math.PI / 2;
+      
+        return coin;
     },
-    // object2() {
-    //     const obj2Geometry = new THREE.SphereGeometry(2, 30, 5)
-    //     const obj2Material = new THREE.MeshPhongMaterial({ color: 0xffff00 });
-    //     return new THREE.Mesh(obj2Geometry, obj2Material);
-    // },
 
     placeObjects(scene, grid) {
         let listObjects = [];
