@@ -132,7 +132,7 @@ function init() {
             setTimeout(function () {
                 alert("You won!");
                 window.location.reload();
-            }, 2000);
+            }, 1000);
         }
         ANIMATIONS.animateCoin(scene);
         requestAnimationFrame(animate);
