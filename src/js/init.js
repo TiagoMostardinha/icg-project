@@ -31,7 +31,7 @@ function init() {
     // ************************** //
     // Create the 3D scene
     // ************************** //
-    let scene = new THREE.Scene();
+    const scene = new THREE.Scene();
 
     // ************************** //
     // Add camera
@@ -125,8 +125,7 @@ function init() {
     // ************************** //
     function animate() {
         if (userControls) {
-            userControls.update(keyPressed, spotlight,scene);
-            scene = userControls.getScene();
+            userControls.update(keyPressed, spotlight);
         }
         
         requestAnimationFrame(animate);
