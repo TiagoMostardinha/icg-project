@@ -138,6 +138,7 @@ function init() {
         renderer.render(scene, camera);
         orbit.update(); // update the state of OrbitControls
     }
+    
     animate();
 
     ACTIONS.centerCamera(camera);
