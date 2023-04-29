@@ -32,7 +32,11 @@ export default {
                     grid[z][x] = "t";
                     // Once the texture is loaded, create the ground plane
                     const targetGeometry = new THREE.PlaneGeometry(5, 5, 1, 1);
-                    const targetMaterial = new THREE.MeshPhongMaterial({ color: 0xffff00 });
+                    
+                    const textureLoader = new THREE.TextureLoader();
+                    const texture = textureLoader.load('./img/target.png');
+            
+                    const targetMaterial = new THREE.MeshPhongMaterial({ map: texture });
                     const target = new THREE.Mesh(targetGeometry, targetMaterial);
                     target.rotation.set(-0.5 * Math.PI, 0, 0);
                     target.position.set(x * 5 + 2.5, 0.1, z * 5 + 2.5);
