@@ -8,8 +8,9 @@ import * as THREE from 'three';
 
 export default {
     buildSmallApartment() {
-        const boxGeometry = new THREE.BoxGeometry(5, 30, 5)
-        const boxMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+        const boxGeometry = new THREE.BoxGeometry(5, 30, 5);
+        const texture = new THREE.TextureLoader().load('./img/small.png');
+        const boxMaterial = new THREE.MeshPhongMaterial({ map: texture });
         return new THREE.Mesh(boxGeometry, boxMaterial);
     },
 
