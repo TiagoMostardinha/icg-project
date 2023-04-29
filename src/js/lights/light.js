@@ -12,6 +12,9 @@ export default {
     buildSkybox(scene) {
         if (Math.random() > 0.1) {
             color = 0xffffff;
+            
+        } else {
+            color = 0x000000;
             const loader = new THREE.CubeTextureLoader();
             loader.setPath('./img/');
             const texture = loader.load([
@@ -23,8 +26,6 @@ export default {
                 'night.jpg'
             ]);
             scene.background = texture;
-        } else {
-            color = 0x000000;
         }
     },
 
