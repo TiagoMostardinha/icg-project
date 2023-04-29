@@ -102,6 +102,7 @@ function init() {
     const axesHelper = new THREE.AxesHelper(30);
     scene.add(axesHelper);
 
+    LIGHTS.buildSkybox(scene);
 
     // ************************** //
     // Lights

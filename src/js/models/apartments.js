@@ -8,20 +8,57 @@ import * as THREE from 'three';
 
 export default {
     buildSmallApartment() {
-        const boxGeometry = new THREE.BoxGeometry(5, 30, 5)
-        const boxMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+        const boxGeometry = new THREE.BoxGeometry(5, 30, 5);
+      
+        const textureLoader = new THREE.TextureLoader();
+        const lateralTexture = textureLoader.load('./img/small.png');
+      
+        const boxMaterial = [
+          new THREE.MeshPhongMaterial({ map: lateralTexture }), // right
+          new THREE.MeshPhongMaterial({ map: lateralTexture }), // left
+          new THREE.MeshPhongMaterial({ color: 0x91420c }), // top
+          new THREE.MeshPhongMaterial({ color: 0x91420c }), // bottom
+          new THREE.MeshPhongMaterial({ map: lateralTexture }), // front
+          new THREE.MeshPhongMaterial({ map: lateralTexture }), // back
+        ];
+      
         return new THREE.Mesh(boxGeometry, boxMaterial);
-    },
+      },
 
     buildLargeApartment() {
-        const boxGeometry = new THREE.BoxGeometry(10, 20, 10)
-        const boxMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+        const boxGeometry = new THREE.BoxGeometry(10, 20, 10);
+      
+        const textureLoader = new THREE.TextureLoader();
+        const lateralTexture = textureLoader.load('./img/large.png');
+      
+        const boxMaterial = [
+          new THREE.MeshPhongMaterial({ map: lateralTexture }), // right
+          new THREE.MeshPhongMaterial({ map: lateralTexture }), // left
+          new THREE.MeshPhongMaterial({ color: 0x8c6a00 }), // top
+          new THREE.MeshPhongMaterial({ color: 0x8c6a00 }), // bottom
+          new THREE.MeshPhongMaterial({ map: lateralTexture }), // front
+          new THREE.MeshPhongMaterial({ map: lateralTexture }), // back
+        ];
+      
         return new THREE.Mesh(boxGeometry, boxMaterial);
     },
 
     buildLongApartment() {
-        const boxGeometry = new THREE.BoxGeometry(5, 25, 15)
-        const boxMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+        const boxGeometry = new THREE.BoxGeometry(5, 25, 11);
+      
+        const textureLoader = new THREE.TextureLoader();
+        const lateralTexture = textureLoader.load('./img/long.png');
+        const frontTexture = textureLoader.load('./img/long2.png');
+      
+        const boxMaterial = [
+          new THREE.MeshPhongMaterial({ map: lateralTexture }), // right
+          new THREE.MeshPhongMaterial({ map: lateralTexture }), // left
+          new THREE.MeshPhongMaterial({ color: 0x3e5f27 }), // top
+          new THREE.MeshPhongMaterial({ color: 0x3e5f27 }), // bottom
+          new THREE.MeshPhongMaterial({ map: frontTexture }), // front
+          new THREE.MeshPhongMaterial({ map: frontTexture }), // back
+        ];
+      
         return new THREE.Mesh(boxGeometry, boxMaterial);
     },
 

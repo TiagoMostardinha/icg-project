@@ -7,10 +7,27 @@
 import * as THREE from 'three';
 
 let color;
-if (Math.random() > 0.1) color = 0xffffff;
-else color = 0x000000;
 
 export default {
+    buildSkybox(scene) {
+        if (Math.random() > 0.1) {
+            color = 0xffffff;
+            const loader = new THREE.CubeTextureLoader();
+            loader.setPath('./img/');
+            const texture = loader.load([
+                'night.jpg',
+                'night.jpg',
+                'night.jpg',
+                'night.jpg',
+                'night.jpg',
+                'night.jpg'
+            ]);
+            scene.background = texture;
+        } else {
+            color = 0x000000;
+        }
+    },
+
     addAmbientLight(scene) {
         const ambientLight = new THREE.AmbientLight(color, 0.5);
         scene.add(ambientLight);
@@ -45,7 +62,6 @@ export default {
                     children[i].receiveShadow = true;
                 }
             }
-            console.log(children[i].type, children[i].castShadow, children[i].receiveShadow);
         }
     },
 }
