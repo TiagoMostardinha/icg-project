@@ -9,7 +9,11 @@ import * as THREE from 'three';
 export default {
     buildGround(scene, grid) {
         const planeSegmentGeometry = new THREE.PlaneGeometry(50, 50, 1, 1);
-        let planeSegmentMaterial = new THREE.MeshPhongMaterial({ color: 0x74855c });
+
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load('./img/ground.jpg');
+
+        let planeSegmentMaterial = new THREE.MeshPhongMaterial({ map: texture });
         const planeSegment = new THREE.Mesh(planeSegmentGeometry, planeSegmentMaterial);
         planeSegment.position.set(25, 0, 25);
         planeSegment.rotation.set(-0.5 * Math.PI, 0, 0);
@@ -32,10 +36,10 @@ export default {
                     grid[z][x] = "t";
                     // Once the texture is loaded, create the ground plane
                     const targetGeometry = new THREE.PlaneGeometry(5, 5, 1, 1);
-                    
+
                     const textureLoader = new THREE.TextureLoader();
                     const texture = textureLoader.load('./img/target.png');
-            
+
                     const targetMaterial = new THREE.MeshPhongMaterial({ map: texture });
                     const target = new THREE.Mesh(targetGeometry, targetMaterial);
                     target.rotation.set(-0.5 * Math.PI, 0, 0);
