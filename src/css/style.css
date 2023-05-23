@@ -22,6 +22,13 @@ img {
 	background-color: #333;
 	color: #fff;
 	padding: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: absolute;
+	width: 98%;
+	border-radius: 5px;
+	margin-left: 8px;
 }
 
 .left-item {
@@ -34,6 +41,7 @@ img {
 
 .right-item {
 	display: flex;
+	margin-right: 20px;
 }
 
 button {
