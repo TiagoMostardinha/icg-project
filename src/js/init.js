@@ -99,8 +99,8 @@ function init() {
     // Helpers
     // ************************** //
     // AXES HELPER
-    const axesHelper = new THREE.AxesHelper(30);
-    scene.add(axesHelper);
+    // const axesHelper = new THREE.AxesHelper(30);
+    // scene.add(axesHelper);
 
     LIGHTS.buildSkybox(scene);
 
