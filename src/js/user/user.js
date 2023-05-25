@@ -67,6 +67,8 @@ export class UserControls {
         spotlight.target.position.set(this.model.position.x + Math.sin(angle), 5, this.model.position.z + Math.cos(angle));
         spotlight.target.updateMatrixWorld();
         spotlight.updateMatrixWorld();
+
+        console.log(this.model.position.x, this.model.position.z);
     }
 
 
@@ -168,7 +170,7 @@ placeObject() {
 export default {
     buildSpotlight() {
         const spotlight = new THREE.SpotLight(0xff0000, 1);
-        spotlight.position.set(25, 6, 45);
+        spotlight.position.set(22.5, 6, 45);
         spotlight.angle = Math.PI / 8;
         spotlight.penumbra = 0.05;
         spotlight.decay = 2;

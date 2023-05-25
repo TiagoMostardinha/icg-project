@@ -16,10 +16,16 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { UserControls } from './user/user.js';
 import ANIMATIONS from './actions/animations.js';
 
+
+
 function init() {
     let inventory = [];
     let grid = buildGrid();
     let listObjects = [];
+
+
+
+    let script = [];
 
     // ************************** //
     // Init the 3D renderer
@@ -74,7 +80,7 @@ function init() {
                 o.receiveShadow = true;
             }
         });
-        model.position.set(25, 0, 45);
+        model.position.set(22.5, 0, 45);
         model.receiveShadow = true;
         scene.add(model);
 
@@ -125,9 +131,49 @@ function init() {
 
 
     // ************************** //
+    let move = false;
+
     function animate() {
+        const buttonGo = document.getElementById('go');
+        const orderText = document.getElementById('order');
+
+        buttonGo.addEventListener('click', (e) => {
+            e.preventDefault();
+            let order = orderText.value.split(',').reverse();
+            console.log("ORDER",order);
+
+            let newScript = [];
+            order.forEach(item => {
+                if (item !== "g" && item !== "p") {
+                    let number;
+                    if (item === "ArrowUp" || item ==="ArrowDown") number = 20;
+                    else number = 31;
+                    for (let j = 0; j < number; j++) {
+                        newScript.push(item);
+                    }
+                } else {
+                    newScript.push(item);
+                }
+            });
+
+            script = newScript;
+        });
+
+
         if (userControls) {
-            userControls.update(keyPressed, spotlight);
+            if (script.length > 0) {
+                userControls.update(script.pop(), spotlight);
+                move = true;
+            } else {
+                if (move) {
+                    userControls.update(null, spotlight);
+                    move = false;
+                }
+                else {
+                    userControls.update(keyPressed, spotlight);
+                }
+            }
+
         }
         if (OBJECT.checkLevelComplete(grid, listObjects)) {
             setTimeout(function () {
