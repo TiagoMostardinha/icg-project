@@ -1,21 +1,23 @@
 // ************************** //
 // Created in: 18/04/2023
-// Made By: Tiago Mostardinhaa
+// Made By: Tiago Mostardinha
 // Project for Introduction of Computer Graphics
 // ************************** //
 
 import * as THREE from 'three';
 
+const size = 50;
+
 export default {
     buildGround(scene, grid) {
-        const planeSegmentGeometry = new THREE.PlaneGeometry(50, 50, 1, 1);
+        const planeSegmentGeometry = new THREE.PlaneGeometry(size, size, 1, 1);
 
         const textureLoader = new THREE.TextureLoader();
         const texture = textureLoader.load('./img/ground.jpg');
 
         let planeSegmentMaterial = new THREE.MeshPhongMaterial({ map: texture });
         const planeSegment = new THREE.Mesh(planeSegmentGeometry, planeSegmentMaterial);
-        planeSegment.position.set(25, 0, 25);
+        planeSegment.position.set(size/2, 0, size/2);
         planeSegment.rotation.set(-0.5 * Math.PI, 0, 0);
         scene.add(planeSegment);
 
