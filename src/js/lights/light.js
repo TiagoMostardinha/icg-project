@@ -37,6 +37,7 @@ export default {
                 'night.jpg'
             ]);
             scene.background = texture;
+            
         }
     },
 
