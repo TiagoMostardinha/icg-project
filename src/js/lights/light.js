@@ -15,12 +15,12 @@ export default {
             const loader = new THREE.CubeTextureLoader();
             loader.setPath('./img/');
             const texture = loader.load([
-                'clouds.jpg',
-                'clouds.jpg',
-                'clouds.jpg',
-                'clouds.jpg',
-                'clouds.jpg',
-                'clouds.jpg'
+                'sky1.jpg',
+                'sky2.jpg',
+                'sky3.jpg',
+                'sky4.jpg',
+                'sky5.jpg',
+                'sky6.jpg'
             ]);
             scene.background = texture;
             
